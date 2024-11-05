@@ -1,0 +1,11 @@
+admin_id,position_title,department,budget_responsibility
+994,Principal,Administration,True
+998,Vice Principal,Administration,True
+995,Secretary,Administration,True
+997,Secretary,Administration,True
+992,Secretary,Administration,True
+999,Secretary,Administration,True
+996,Counselor,Guidance,False
+993,Counselor,Guidance,False
+1000,Counselor,Guidance,False
+991,Counselor,Guidance,False
