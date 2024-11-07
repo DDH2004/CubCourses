@@ -1,11 +1,11 @@
 club_id,teacher_id,name,description,meeting_time,meeting_day
-1,907,Chess Club,A club for chess enthusiasts,04:35:51,Wednesday
-2,870,Art Club,A club for artists,21:43:03,Tuesday
-3,977,Music Club,A club for music lovers,01:41:57,Tuesday
-4,867,Drama Club,A club for aspiring actors,10:44:41,Wednesday
-5,942,Debate Club,A club for debaters,14:45:00,Friday
-6,898,Science Club,A club for science lovers,02:16:53,Tuesday
-7,894,Math Club,A club for math enthusiasts,12:16:02,Monday
-8,985,History Club,A club for history buffs,17:14:29,Monday
-9,906,English Club,A club for book lovers,00:11:37,Tuesday
-10,870,Spanish Club,A club for Spanish speakers,21:42:37,Thursday
+1,947,Chess Club,A club for chess enthusiasts,21:04:24,Monday
+2,939,Art Club,A club for artists,13:11:27,Tuesday
+3,900,Music Club,A club for music lovers,07:52:27,Wednesday
+4,893,Drama Club,A club for aspiring actors,02:29:45,Thursday
+5,901,Debate Club,A club for debaters,15:22:57,Wednesday
+6,945,Science Club,A club for science lovers,18:34:11,Thursday
+7,867,Math Club,A club for math enthusiasts,07:40:38,Friday
+8,950,History Club,A club for history buffs,08:33:11,Monday
+9,937,English Club,A club for book lovers,10:59:28,Monday
+10,869,Spanish Club,A club for Spanish speakers,04:08:48,Wednesday
