@@ -1,4 +1,4 @@
-class_id,name,teacher_id,subject
+cs_classkey,cs_name,cs_teacherkey,cs_subject
 1,History 1,851,History
 2,History 2,851,History
 3,History 3,851,History

@@ -1,4 +1,4 @@
-teacher_id,subject,tenure,office
+t_teacherkey,t_subject,t_tenure,t_office
 851,History,No,F
 852,Music,Yes,I
 853,History,No,G

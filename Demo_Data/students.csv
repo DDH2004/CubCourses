@@ -1,4 +1,4 @@
-student_id,guardian,enroll_date
+s_studentkey,s_guardian,s_enrolldate
 1,Christopher Simpson,2022-11-07
 2,Patrick Brown,2022-11-07
 3,Dennis Cruz,2021-11-07

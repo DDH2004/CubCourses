@@ -1,4 +1,4 @@
-faculty_id,hire_date,role,salary
+f_facultykey,f_hiredate,f_role,f_salary
 851,2019-11-07,Teacher,78325
 852,2016-11-07,Teacher,112960
 853,2020-11-07,Teacher,68498

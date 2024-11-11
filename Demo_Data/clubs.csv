@@ -1,4 +1,4 @@
-club_id,teacher_id,name,description,meeting_time,meeting_day
+cb_clubkey,cb_teacherkey,cb_name,cb_description,cb_meetingtime,cb_meetingday
 1,947,Chess Club,A club for chess enthusiasts,21:04:24,Monday
 2,939,Art Club,A club for artists,13:11:27,Tuesday
 3,900,Music Club,A club for music lovers,07:52:27,Wednesday

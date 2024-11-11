@@ -1,4 +1,4 @@
-admin_id,position_title,department,budget_responsibility
+am_personkey, am_postitle,am_dept,am_budgetresp
 996,Principal,Administration,True
 995,Vice Principal,Administration,True
 997,Secretary,Administration,True

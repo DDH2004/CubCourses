@@ -1,4 +1,4 @@
-student_id,class_id,grade
+at_studentkey,at_classkey,at_grade
 1,216,74
 1,25,75
 1,49,84

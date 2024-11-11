@@ -1,4 +1,4 @@
-id,first_name,last_name,phoneNum,email,address,gender,dob
+p_personkey,p_firstname,p_lastname,p_phonenum,p_email,p_address,p_gender,p_dob
 1,Dennis,Hoffman,(838)831-1420,hoffman.dennis@cub.edu,"65269 Laura Forges, Lake Debra, PR 31902",Female,2005-12-21
 2,Robyn,Jones,703.272.9914,jones.robyn@cub.edu,"04795 Brown Lock Suite 107, West Bonnieton, TN 48363",Other,2010-06-27
 3,Kristen,Vega,+1-681-527-5267,vega.kristen@cub.edu,"524 Ballard Drive Suite 394, Rushside, SC 23066",Other,2008-03-25
