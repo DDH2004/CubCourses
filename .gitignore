@@ -1,1 +1,5 @@
 .venv
+.DS_Store
+Checkpoint3_Items/.next
+.vscode
+Checkpoint3_Items/node_modules
