@@ -7,6 +7,7 @@ import { Card, Image, Text, Badge, Button, Group } from '@mantine/core';
 
 
 export default function HomePage() {
+
   return (
     <>
     <ColorSchemeToggle/>
