@@ -1,6 +1,6 @@
-import { Card, Table, TableData } from "@mantine/core"
+import { Card, ScrollArea, Table, TableData } from "@mantine/core"
 
-const ClassesTable = () => {
+const ClassesTable = ({classes}: {classes: any[]}) => {
     const tableData: TableData = {
         head: ['Class ID', 'Subject', 'Name', 'Teacher'],
         body: [
@@ -12,10 +12,31 @@ const ClassesTable = () => {
         ],
     };
 
-    return <Card radius={10}>
-        <Table data={tableData}>
+    return <Card radius={10} mah="30rem">
+        <Table.ScrollContainer minWidth={500} type="native">
+            <Table>
+                <Table.Thead>
+                    <Table.Tr >
+                        <Table.Td>Class ID</Table.Td>
+                        <Table.Td>Name</Table.Td>
+                        <Table.Td>Teacher</Table.Td>
+                        <Table.Td>Subject</Table.Td>
+                    </Table.Tr>
+                </Table.Thead>
 
-        </Table>
+                <Table.Tbody>
+                    {classes.map((item, index) => {
+                        // console.log(item)
+                        return <Table.Tr key={index}>
+                            <Table.Td>{item.cs_classkey}</Table.Td>
+                            <Table.Td>{item.cs_name}</Table.Td>
+                            <Table.Td>{item.p_firstname + " " + item.p_lastname}</Table.Td>
+                            <Table.Td>{item.cs_subject}</Table.Td>
+                        </Table.Tr>
+                    })}
+                </Table.Tbody>
+            </Table>
+        </Table.ScrollContainer>
     </Card>
 }
 
