@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     switch (queryType) {
       case 'getStudents': {
         result = await new Promise<any[]>((resolve, reject) => {
-          db.all('SELECT * FROM students', [], (err, rows) => {
+          db.all('SELECT * FROM students join persons on s_studentkey = p_personkey', [], (err, rows) => {
             if (err) reject(err);
             resolve(rows);
           });
@@ -29,6 +29,42 @@ export async function POST(request: Request) {
       case 'getClasses': {
         result = await new Promise<any[]>((resolve, reject) => {
           db.all('SELECT * FROM classes join persons on p_personkey = cs_teacherkey', 
+            [], (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+          });
+        });
+        break;
+      }
+
+      case 'getMyClassesById': {
+        if (!params?.id) {
+          return NextResponse.json({ error: 'Missing id parameter' }, { status: 400 });
+        }
+        result = await new Promise<any[]>((resolve, reject) => {
+          db.all('SELECT * FROM classes join persons on p_personkey = cs_teacherkey join attends on at_classkey = cs_classkey join students on s_studentkey = at_studentkey where s_studentkey = ?', 
+            [params.id], (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+          });
+        });
+        break;
+      }
+
+      case 'getTeachers': {
+        result = await new Promise<any[]>((resolve, reject) => {
+          db.all('SELECT * FROM teachers join persons on t_teacherkey = p_personkey', 
+            [], (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+          });
+        });
+        break;
+      }
+
+      case 'getAdmin': {
+        result = await new Promise<any[]>((resolve, reject) => {
+          db.all('SELECT * FROM admin join persons on am_personkey = p_personkey', 
             [], (err, rows) => {
             if (err) reject(err);
             resolve(rows);

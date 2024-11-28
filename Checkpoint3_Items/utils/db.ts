@@ -10,15 +10,3 @@ export function getDatabaseConnection() {
     }
   });
 }
-
-// export function queryDatabase(db: Database, sql: string) {
-//     return new Promise((resolve, reject) => {
-//       db.all(sql, [], (err, rows) => {
-//         if (err) {
-//           reject(err);
-//         } else {
-//           resolve(rows);
-//         }
-//       });
-//     });
-//   };
