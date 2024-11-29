@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 
 
-export default function Student() {
+export default function StudentView() {
     const params = useParams(); // Access dynamic route parameters
     const userId = params?.id || "1"; // Retrieve the "id" parameter from the URL
 

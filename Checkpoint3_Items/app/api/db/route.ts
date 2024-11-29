@@ -86,6 +86,32 @@ export async function POST(request: Request) {
         break;
       }
 
+      case 'registerClass': {
+        if (!params?.studentId || !params?.classId) {
+          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
+        }
+        result = await new Promise<any>((resolve, reject) => {
+          db.get('insert into attends (at_studentkey, at_classkey, at_grade) values (?, ?, 0);', [params.studentId, params.classId], (err, row) => {
+            if (err) reject(err);
+            resolve(row);
+          });
+        });
+        break;
+      }
+
+      case 'removeClass': {
+        if (!params?.studentId || !params?.classId) {
+          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
+        }
+        result = await new Promise<any>((resolve, reject) => {
+          db.get('delete from attends where at_studentkey = ? and at_classkey = ?;', [params.studentId, params.classId], (err, row) => {
+            if (err) reject(err);
+            resolve(row);
+          });
+        });
+        break;
+      }
+
       // case 'createUser': {
       //   if (!params?.name || !params?.email) {
       //     return NextResponse.json(
