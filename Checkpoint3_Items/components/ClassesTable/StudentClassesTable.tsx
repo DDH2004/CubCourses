@@ -2,7 +2,7 @@ import { Button, Card, Menu, rem, Table, TableData, Text } from "@mantine/core"
 import { IconDotsVertical, IconFileDescription, IconFilePencil, IconMessageCircle, IconPlus, IconTrash } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 
-const ClassesTable = ({studentID}: {studentID: any}) => {
+const StudentClassesTable = ({studentID}: {studentID: any}) => {
     const [classes, setClasses] = useState<any[]>([]);
     const [registeredClasses, setRegisteredClasses] = useState<any[]>([]);
 
@@ -50,7 +50,7 @@ const ClassesTable = ({studentID}: {studentID: any}) => {
         }
 
         const result = await response.json();
-        console.log('Result received:', result.result);
+        // console.log('Result received:', result.result);
 
         setRegisteredClasses(result.result);
         } catch (error) {
@@ -139,9 +139,6 @@ const ClassesTable = ({studentID}: {studentID: any}) => {
                 <Menu.Item leftSection={<IconFilePencil style={{ width: rem(14), height: rem(14) }} />}>
                 View Assignments
                 </Menu.Item>
-                <Menu.Item leftSection={<IconFileDescription style={{ width: rem(14), height: rem(14) }} />}>
-                View Grades
-                </Menu.Item>
                 <Menu.Item
                 color="red"
                 onClick={handleRemoveClass}
@@ -163,7 +160,7 @@ const ClassesTable = ({studentID}: {studentID: any}) => {
     }, []);
 
     return <Card radius={10} mah="30rem">
-        <Table.ScrollContainer minWidth={550} type="native">
+        <Table.ScrollContainer minWidth={500} type="native">
             <Text mb="0.5rem" fw="700">Registered Classes</Text>
             <Table>
                 <Table.Thead>
@@ -223,4 +220,4 @@ const ClassesTable = ({studentID}: {studentID: any}) => {
     </Card>
 }
 
-export default ClassesTable
+export default StudentClassesTable

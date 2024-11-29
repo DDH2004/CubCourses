@@ -1,8 +1,9 @@
 'use client'
-import ClassesTable from "@/components/ClassesTable";
 import { Card, Flex, Group, Text } from "@mantine/core"
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import StudentClassesTable from "@/components/ClassesTable/StudentClassesTable";
+import StudentClubsTable from "@/components/ClubsTable/StudentClubsTable";
 
 
 export default function StudentView() {
@@ -15,6 +16,9 @@ export default function StudentView() {
             <Text component="a" href="/" fw="700">Choose another role?</Text>
         </Group>
 
-        <ClassesTable studentID={userId}/>
+        <Group>
+            <StudentClassesTable studentID={userId}/>
+            <StudentClubsTable studentID={userId}/>
+        </Group>
     </>
 }
