@@ -20,9 +20,11 @@ export default function RootLayout({ children }: { children: any }) {
           content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
         />
       </head>
-      <body style={{display: 'flex', justifyContent: 'center', padding: '1rem 8rem'}}>
-        <div style={{width: '70rem', display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
-          <MantineProvider theme={theme}>{children}</MantineProvider>
+      <body>
+        <div style={{display: 'flex', justifyContent: 'center', padding: '1rem 8rem'}}>
+          <div style={{width: '70rem', display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
+            <MantineProvider theme={theme}>{children}</MantineProvider>
+          </div>
         </div>
       </body>
     </html>

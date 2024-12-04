@@ -165,6 +165,48 @@ export async function POST(request: Request) {
         break;
       }
 
+      case 'getAssignments': {
+        if (!params?.classId) {
+          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
+        }
+        result = await new Promise<any[]>((resolve, reject) => {
+          db.all('select * from homework where h_classkey = ?;', 
+            [params.classId], (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+          });
+        });
+        break;
+      }
+
+      case 'getAssignmentsById': {
+        if (!params?.classId || !params?.studentId) {
+          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
+        }
+        result = await new Promise<any[]>((resolve, reject) => {
+          db.all('select * from homework join doesHomework on h_homeworkkey = d_homeworkkey where h_classkey = ? and d_studentkey = ?;', 
+            [params.classId, params.studentId], (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+          });
+        });
+        break;
+      }
+
+      case 'submitAssignment': {
+        if (!params?.assignmentId || !params?.studentId) {
+          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
+        }
+        result = await new Promise<any[]>((resolve, reject) => {
+          db.all('insert into doesHomework values (?, ?, 0);', 
+            [params.assignmentId, params.studentId], (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+          });
+        });
+        break;
+      }
+
       // case 'createUser': {
       //   if (!params?.name || !params?.email) {
       //     return NextResponse.json(

@@ -1,10 +1,12 @@
 import { Button, Card, Menu, rem, Table, TableData, Text } from "@mantine/core"
 import { IconDotsVertical, IconFileDescription, IconFilePencil, IconMessageCircle, IconPlus, IconTrash } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 const StudentClassesTable = ({studentID}: {studentID: any}) => {
     const [classes, setClasses] = useState<any[]>([]);
     const [registeredClasses, setRegisteredClasses] = useState<any[]>([]);
+    const router = useRouter()
 
     async function fetchAllClasses() {
         try {
@@ -136,8 +138,11 @@ const StudentClassesTable = ({studentID}: {studentID: any}) => {
         return <Menu shadow="md" width={200}>
             <Menu.Dropdown>
                 <Menu.Label>{name}</Menu.Label>
-                <Menu.Item leftSection={<IconFilePencil style={{ width: rem(14), height: rem(14) }} />}>
+                <Menu.Item onClick={() => router.push(`/student/${studentID}/assignments/${classId}`)} leftSection={<IconFilePencil style={{ width: rem(14), height: rem(14) }} />}>
                 View Assignments
+                </Menu.Item>
+                <Menu.Item leftSection={<IconFileDescription style={{ width: rem(14), height: rem(14) }} />}>
+                View Grades
                 </Menu.Item>
                 <Menu.Item
                 color="red"
