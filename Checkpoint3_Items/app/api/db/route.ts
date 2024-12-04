@@ -207,6 +207,20 @@ export async function POST(request: Request) {
         break;
       }
 
+      case 'getGradeById': {
+        if (!params?.classId || !params?.studentId) {
+          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
+        }
+        result = await new Promise<any[]>((resolve, reject) => {
+          db.all('select * from attendsClass where at_classkey = ? and at_studentkey = ?;', 
+            [params.classId, params.studentId], (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+          });
+        });
+        break;
+      }
+
       // case 'createUser': {
       //   if (!params?.name || !params?.email) {
       //     return NextResponse.json(

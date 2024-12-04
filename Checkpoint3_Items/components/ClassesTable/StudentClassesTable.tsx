@@ -141,9 +141,9 @@ const StudentClassesTable = ({ studentID }: { studentID: any }) => {
                 <Menu.Item onClick={() => router.push(`/student/${studentID}/assignments/${classId}`)} leftSection={<IconFilePencil style={{ width: rem(14), height: rem(14) }} />}>
                     View Assignments
                 </Menu.Item>
-                <Menu.Item leftSection={<IconFileDescription style={{ width: rem(14), height: rem(14) }} />}>
+                {/* <Menu.Item leftSection={<IconFileDescription style={{ width: rem(14), height: rem(14) }} />}>
                     View Grades
-                </Menu.Item>
+                </Menu.Item> */}
                 <Menu.Item
                     color="red"
                     onClick={handleRemoveClass}
@@ -166,7 +166,7 @@ const StudentClassesTable = ({ studentID }: { studentID: any }) => {
 
     return <Card radius={10} mah="30rem">
         <Table.ScrollContainer minWidth={500} type="native">
-            <Text mb="0.5rem" fw="700">Registered Classes</Text>
+            <Text mb="0.5rem" fw="700" c="blue">Registered Classes</Text>
             <Table>
                 <Table.Thead>
                     <Table.Tr >
@@ -194,7 +194,7 @@ const StudentClassesTable = ({ studentID }: { studentID: any }) => {
                 </Table.Tbody>
             </Table>
 
-            <Text mb="0.5rem" mt="1rem" fw="700">Classes</Text>
+            <Text mb="0.5rem" mt="1rem" fw="700" c="blue">Classes</Text>
             <Table>
                 <Table.Thead>
                     <Table.Tr >

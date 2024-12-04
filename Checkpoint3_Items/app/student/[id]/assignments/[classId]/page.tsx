@@ -15,6 +15,7 @@ export default function StudentAssignmentView() {
     const [myAssignments, setMyAssignments] = useState<any[]>([])
     const [opened, { close, open }] = useDisclosure(false);
     const assignmentRef = useRef("1")
+    const overallGradeRef = useRef("0")
 
 
     const userId = params?.id || "1";
@@ -72,9 +73,35 @@ export default function StudentAssignmentView() {
         }
     }
 
+    async function fetchMyGrade() {
+        try {
+            const response = await fetch('/api/db', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(
+                    { queryType: 'getGradeById', params: { classId: classId, studentId: userId } }
+                )
+            });
+
+            if (!response.ok) {
+                console.error('HTTP error!', response.status, response.statusText);
+                return;
+            }
+
+            const result = await response.json();
+
+            overallGradeRef.current = result.result[0].at_grade
+        } catch (error) {
+            console.error('Failed to fetch data:', error);
+        }
+    }
+
     useEffect(() => {
         fetchAllAssignments()
         fetchMyAssignments()
+        fetchMyGrade()
     }, [])
 
     const DueAssignmentCard = ({ id, dueDate, assignDate, desc }: { id: string, dueDate: string, assignDate: string, desc: string }) => {
@@ -103,11 +130,6 @@ export default function StudentAssignmentView() {
     }
 
     const SubmittedAssignmentCard = ({ id, dueDate, assignDate, desc, grade }: { id: string, dueDate: string, assignDate: string, desc: string, grade: string }) => {
-        const onDueSubmit = () => {
-            assignmentRef.current = id
-            open()
-        }
-
         return <Card w="100%" m="0.5rem 0">
             <Group gap="lg">
                 <IconBook size={30} />
@@ -168,6 +190,7 @@ export default function StudentAssignmentView() {
             <IconArrowLeft />
             <Text fw="700">Back</Text>
         </Group>
+        <Text>Overall Grade: {overallGradeRef.current}</Text>
         <Text fw="500" fz="24" mb="1rem">Assignments</Text>
         <Text fw="600" fz="18">Submitted</Text>
         {myAssignments.length > 0 ? myAssignments.map((item, index) => <SubmittedAssignmentCard key={index} id={item.h_homeworkkey} dueDate={item.h_duedate} assignDate={item.h_assigndate} desc={item.h_description} grade={item.d_grade} />) :

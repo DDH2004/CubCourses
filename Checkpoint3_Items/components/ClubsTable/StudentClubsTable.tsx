@@ -150,7 +150,7 @@ const StudentClubsTable = ({ studentID }: { studentID: any }) => {
 
     return <Card radius={10} mah="30rem">
         <Table.ScrollContainer minWidth={400} type="native">
-            <Text mb="0.5rem" fw="700">My Clubs</Text>
+            <Text mb="0.5rem" fw="700" c="blue">My Clubs</Text>
             <Table>
                 <Table.Thead>
                     <Table.Tr >
@@ -176,7 +176,7 @@ const StudentClubsTable = ({ studentID }: { studentID: any }) => {
                 </Table.Tbody>
             </Table>
 
-            <Text mb="0.5rem" mt="1rem" fw="700">Clubs</Text>
+            <Text mb="0.5rem" mt="1rem" fw="700" c="blue">Clubs</Text>
             <Table>
                 <Table.Thead>
                     <Table.Tr >
