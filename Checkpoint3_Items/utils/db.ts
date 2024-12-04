@@ -1,8 +1,11 @@
-import sqlite3, { Database } from 'sqlite3';
+import sqlite3 from 'sqlite3';
+import path from 'path';
 
 // Create a function to open the database
 export function getDatabaseConnection() {
-  return new sqlite3.Database('/Users/brandon/Downloads/CSEFolders/CSE111 - Databases/CubCourses/Checkpoint3_Items/Checkpoint2-dbase.sqlite', sqlite3.OPEN_READWRITE, (err) => {
+  const dbPath = path.resolve(process.cwd(), 'Checkpoint2-dbase.sqlite');
+
+  return new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.error('Failed to connect to the database:', err.message);
     } else {
