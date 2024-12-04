@@ -30,6 +30,7 @@ const EnterStudentCard = () => {
       //   console.log('Result received:', result.result);
 
       setStudents(result.result);
+      setStudentKey(result.result[0].s_studentkey + "")
     } catch (error) {
       console.error('Failed to fetch data:', error);
     }
