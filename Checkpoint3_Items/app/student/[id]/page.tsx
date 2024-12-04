@@ -20,8 +20,8 @@ export default function StudentView() {
         </Group>
 
         <Group>
-            <StudentClassesTable studentID={userId}/>
-            <StudentClubsTable studentID={userId}/>
+            <StudentClassesTable studentID={userId} />
+            <StudentClubsTable studentID={userId} />
         </Group>
     </>
 }

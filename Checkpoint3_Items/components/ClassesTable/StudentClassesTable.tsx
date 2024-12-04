@@ -3,83 +3,20 @@ import { IconDotsVertical, IconFileDescription, IconFilePencil, IconMessageCircl
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-const StudentClassesTable = ({studentID}: {studentID: any}) => {
+const StudentClassesTable = ({ studentID }: { studentID: any }) => {
     const [classes, setClasses] = useState<any[]>([]);
     const [registeredClasses, setRegisteredClasses] = useState<any[]>([]);
     const router = useRouter()
 
     async function fetchAllClasses() {
         try {
-        const response = await fetch('/api/db', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(
-                { queryType: 'getClasses', params: {} }
-            )
-        });
-
-        if (!response.ok) {
-            console.error('HTTP error!', response.status, response.statusText);
-            return;
-        }
-
-        const result = await response.json();
-        // console.log('Result received:', result.result);
-
-        setClasses(result.result);
-        } catch (error) {
-        console.error('Failed to fetch data:', error);
-        }
-    }
-
-    async function fetchMyClasses() {
-        try {
-        const response = await fetch('/api/db', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(
-                { queryType: 'getMyClassesById', params: {id: studentID} }
-            )
-        });
-
-        if (!response.ok) {
-            console.error('HTTP error!', response.status, response.statusText);
-            return;
-        }
-
-        const result = await response.json();
-        // console.log('Result received:', result.result);
-
-        setRegisteredClasses(result.result);
-        } catch (error) {
-        console.error('Failed to fetch data:', error);
-        }
-    }
-
-    const ClassMenu = ({classId, name}: {classId: string, name: string}) => {
-        const handleRegister = async () => {
-            if(registeredClasses.length >= 6){
-                alert("Can't have more than 6 classes!")
-            }
-            console.log(classId)
-            console.log(registeredClasses.map((item) => item.cs_classkey))
-
-            if((registeredClasses.map((item) => item.cs_classkey)).includes(classId)){
-                alert("Already registered in that class!")
-            }
-
-            try {
             const response = await fetch('/api/db', {
                 method: 'POST',
                 headers: {
-                'Content-Type': 'application/json',
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(
-                    { queryType: 'registerClass', params: {studentId: studentID, classId: classId} }
+                    { queryType: 'getClasses', params: {} }
                 )
             });
 
@@ -88,11 +25,74 @@ const StudentClassesTable = ({studentID}: {studentID: any}) => {
                 return;
             }
 
-            // setClasses(result.result);
-            fetchAllClasses();
-            fetchMyClasses();
-            } catch (error) {
+            const result = await response.json();
+            // console.log('Result received:', result.result);
+
+            setClasses(result.result);
+        } catch (error) {
             console.error('Failed to fetch data:', error);
+        }
+    }
+
+    async function fetchMyClasses() {
+        try {
+            const response = await fetch('/api/db', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(
+                    { queryType: 'getMyClassesById', params: { id: studentID } }
+                )
+            });
+
+            if (!response.ok) {
+                console.error('HTTP error!', response.status, response.statusText);
+                return;
+            }
+
+            const result = await response.json();
+            // console.log('Result received:', result.result);
+
+            setRegisteredClasses(result.result);
+        } catch (error) {
+            console.error('Failed to fetch data:', error);
+        }
+    }
+
+    const ClassMenu = ({ classId, name }: { classId: string, name: string }) => {
+        const handleRegister = async () => {
+            if (registeredClasses.length >= 6) {
+                alert("Can't have more than 6 classes!")
+            }
+            console.log(classId)
+            console.log(registeredClasses.map((item) => item.cs_classkey))
+
+            if ((registeredClasses.map((item) => item.cs_classkey)).includes(classId)) {
+                alert("Already registered in that class!")
+            }
+
+            try {
+                const response = await fetch('/api/db', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(
+                        { queryType: 'registerClass', params: { studentId: studentID, classId: classId } }
+                    )
+                });
+
+                if (!response.ok) {
+                    console.error('HTTP error!', response.status, response.statusText);
+                    return;
+                }
+
+                // setClasses(result.result);
+                fetchAllClasses();
+                fetchMyClasses();
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
             }
         }
 
@@ -100,38 +100,38 @@ const StudentClassesTable = ({studentID}: {studentID: any}) => {
             <Menu.Dropdown>
                 <Menu.Label>{name}</Menu.Label>
                 <Menu.Item onClick={handleRegister} leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
-                Register Class
+                    Register Class
                 </Menu.Item>
-        </Menu.Dropdown>
-        
+            </Menu.Dropdown>
+
             <Menu.Target>
-                <IconDotsVertical size={20} cursor="pointer"/>
+                <IconDotsVertical size={20} cursor="pointer" />
             </Menu.Target>
         </Menu>
     }
 
-    const RegisteredClassMenu = ({classId, name}: {classId: string, name: string}) => {
+    const RegisteredClassMenu = ({ classId, name }: { classId: string, name: string }) => {
         const handleRemoveClass = async () => {
             try {
-            const response = await fetch('/api/db', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(
-                    { queryType: 'removeClass', params: {studentId: studentID, classId: classId} }
-                )
-            });
+                const response = await fetch('/api/db', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(
+                        { queryType: 'removeClass', params: { studentId: studentID, classId: classId } }
+                    )
+                });
 
-            if (!response.ok) {
-                console.error('HTTP error!', response.status, response.statusText);
-                return;
-            }
+                if (!response.ok) {
+                    console.error('HTTP error!', response.status, response.statusText);
+                    return;
+                }
 
-            fetchAllClasses();
-            fetchMyClasses();
+                fetchAllClasses();
+                fetchMyClasses();
             } catch (error) {
-            console.error('Failed to fetch data:', error);
+                console.error('Failed to fetch data:', error);
             }
         }
 
@@ -139,22 +139,22 @@ const StudentClassesTable = ({studentID}: {studentID: any}) => {
             <Menu.Dropdown>
                 <Menu.Label>{name}</Menu.Label>
                 <Menu.Item onClick={() => router.push(`/student/${studentID}/assignments/${classId}`)} leftSection={<IconFilePencil style={{ width: rem(14), height: rem(14) }} />}>
-                View Assignments
+                    View Assignments
                 </Menu.Item>
                 <Menu.Item leftSection={<IconFileDescription style={{ width: rem(14), height: rem(14) }} />}>
-                View Grades
+                    View Grades
                 </Menu.Item>
                 <Menu.Item
-                color="red"
-                onClick={handleRemoveClass}
-                leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
+                    color="red"
+                    onClick={handleRemoveClass}
+                    leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
                 >
-                Remove Class
+                    Remove Class
                 </Menu.Item>
-        </Menu.Dropdown>
-        
+            </Menu.Dropdown>
+
             <Menu.Target>
-                <IconDotsVertical size={20} cursor="pointer"/>
+                <IconDotsVertical size={20} cursor="pointer" />
             </Menu.Target>
         </Menu>
     }
@@ -180,14 +180,14 @@ const StudentClassesTable = ({studentID}: {studentID: any}) => {
                 <Table.Tbody>
                     {registeredClasses.map((item, index) => {
                         // console.log(item)
-                        
+
                         return <Table.Tr key={index}>
                             <Table.Td>{item.cs_classkey}</Table.Td>
                             <Table.Td>{item.cs_name}</Table.Td>
                             <Table.Td>{item.p_firstname + " " + item.p_lastname}</Table.Td>
                             <Table.Td>{item.cs_subject}</Table.Td>
                             <Table.Td>
-                                <RegisteredClassMenu classId={item.cs_classkey} name={item.cs_name}/>
+                                <RegisteredClassMenu classId={item.cs_classkey} name={item.cs_name} />
                             </Table.Td>
                         </Table.Tr>
                     })}
@@ -202,22 +202,22 @@ const StudentClassesTable = ({studentID}: {studentID: any}) => {
                         <Table.Td fw="700">Name</Table.Td>
                         <Table.Td fw="700">Teacher</Table.Td>
                         <Table.Td fw="700">Subject</Table.Td>
-                        
+
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
                     {classes.map((item, index) => {
                         // console.log(item)
-                        return (registeredClasses.map((item) => item.cs_classkey)).includes(item.cs_classkey) ? undefined : 
-                        <Table.Tr key={index}>
-                            <Table.Td>{item.cs_classkey}</Table.Td>
-                            <Table.Td>{item.cs_name}</Table.Td>
-                            <Table.Td>{item.p_firstname + " " + item.p_lastname}</Table.Td>
-                            <Table.Td>{item.cs_subject}</Table.Td>
-                            <Table.Td>
-                                <ClassMenu classId={item.cs_classkey} name={item.cs_name}/>
-                            </Table.Td>
-                        </Table.Tr>
+                        return (registeredClasses.map((item) => item.cs_classkey)).includes(item.cs_classkey) ? undefined :
+                            <Table.Tr key={index}>
+                                <Table.Td>{item.cs_classkey}</Table.Td>
+                                <Table.Td>{item.cs_name}</Table.Td>
+                                <Table.Td>{item.p_firstname + " " + item.p_lastname}</Table.Td>
+                                <Table.Td>{item.cs_subject}</Table.Td>
+                                <Table.Td>
+                                    <ClassMenu classId={item.cs_classkey} name={item.cs_name} />
+                                </Table.Td>
+                            </Table.Tr>
                     })}
                 </Table.Tbody>
             </Table>

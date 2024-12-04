@@ -21,8 +21,8 @@ export default function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <div style={{display: 'flex', justifyContent: 'center', padding: '1rem 8rem'}}>
-          <div style={{width: '70rem', display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
+        <div style={{ display: 'flex', justifyContent: 'center', padding: '1rem 8rem' }}>
+          <div style={{ width: '70rem', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
             <MantineProvider theme={theme}>{children}</MantineProvider>
           </div>
         </div>

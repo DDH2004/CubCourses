@@ -20,7 +20,7 @@ export default function HomePage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(
-            { queryType: 'getTeachers', params: {} }
+          { queryType: 'getTeachers', params: {} }
         )
       });
 
@@ -46,7 +46,7 @@ export default function HomePage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(
-            { queryType: 'getAdmin', params: {} }
+          { queryType: 'getAdmin', params: {} }
         )
       });
 
@@ -65,28 +65,28 @@ export default function HomePage() {
   }
 
   useEffect(() => {
-      // fetchTeachers();
-      // fetchAdmin();
+    // fetchTeachers();
+    // fetchAdmin();
   }, []);
 
   return (
     <>
-    <ColorSchemeToggle/>
-    <Text style={{fontSize: 48, fontWeight: 600, marginTop: '2rem'}}>I am a...</Text>
+      <ColorSchemeToggle />
+      <Text style={{ fontSize: 48, fontWeight: 600, marginTop: '2rem' }}>I am a...</Text>
       <Group gap={24}>
-        <EnterStudentCard/>
+        <EnterStudentCard />
 
-        <Card shadow="sm" padding="lg" radius="md" withBorder m="2rem 0" w="20rem" component='a' href='/teacher' style={{cursor: 'pointer'}}>
+        <Card shadow="sm" padding="lg" radius="md" withBorder m="2rem 0" w="20rem" component='a' href='/teacher' style={{ cursor: 'pointer' }}>
           <Group justify='center' m="0 0 0 -1.5rem">
-            <IconClipboard size={32}/>
-            <Text style={{fontSize: 26, fontWeight: 500}}>Teacher</Text>
+            <IconClipboard size={32} />
+            <Text style={{ fontSize: 26, fontWeight: 500 }}>Teacher</Text>
           </Group>
         </Card>
 
-        <Card shadow="sm" padding="lg" radius="md" withBorder m="2rem 0" w="20rem" component='a' href='/admin' style={{cursor: 'pointer'}}>
+        <Card shadow="sm" padding="lg" radius="md" withBorder m="2rem 0" w="20rem" component='a' href='/admin' style={{ cursor: 'pointer' }}>
           <Group justify='center' m="0 0 0 -1rem">
-            <IconCrown size={32}/>
-            <Text style={{fontSize: 26, fontWeight: 500}}>Administrator</Text>
+            <IconCrown size={32} />
+            <Text style={{ fontSize: 26, fontWeight: 500 }}>Administrator</Text>
           </Group>
         </Card>
       </Group>
