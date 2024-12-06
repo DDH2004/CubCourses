@@ -11,6 +11,17 @@ export default function TeacherViewStudents({ teacherID, classes, students, refr
     const [currentStudentGrade, setCurrentStudentGrade] = useState(0)
     const [opened, { close, open }] = useDisclosure(false);
 
+    useEffect(() => {
+        let found = false
+        classes.forEach((cls) => {
+            if (cls.cs_teacherkey == teacherID && !found) {
+                found = true
+                setActiveTab(cls.cs_classkey.toString())
+            }
+        })
+        // setActiveTab(classes[0]?.cs_name)
+    }, [classes])
+
     const changeStudentGrade = async (studId: string, classId: string, grade: number) => {
         try {
             const response = await fetch('/api/db', {
@@ -56,7 +67,7 @@ export default function TeacherViewStudents({ teacherID, classes, students, refr
         </Menu>
     }
 
-    return <Card w="100%" m="1.5rem 0">
+    return <Card w="100%" m="1.5rem 0" radius={10}>
         <Modal opened={opened} onClose={close} title={`Change ${currentStudent.current}'s Grade`} withCloseButton>
             <NumberInput
                 label="Grade"

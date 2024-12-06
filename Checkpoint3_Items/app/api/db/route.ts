@@ -247,6 +247,33 @@ export async function POST(request: Request) {
         break;
       }
 
+      case 'getSubmittedAssignmentsByClass': {
+        if (!params?.classId) {
+          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
+        }
+        result = await new Promise<any[]>((resolve, reject) => {
+          db.all('select * from homework join doesHomework on h_homeworkkey = d_homeworkkey join students on s_studentkey = d_studentkey join persons on s_studentkey = p_personkey where h_classkey = ?;',
+            [params.classId], (err, rows) => {
+              if (err) reject(err);
+              resolve(rows);
+            });
+        });
+        break;
+      }
+
+      case 'updateAssignmentGrade': {
+        if (!params?.studentId || !params?.assignId || !params?.grade) {
+          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
+        }
+        result = await new Promise<any[]>((resolve, reject) => {
+          db.all('update doesHomework set d_grade = ? where d_studentkey = ? and d_homeworkkey = ?;', [params.grade, params.studentId, params.assignId], (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+          });
+        });
+        break;
+      }
+
       // case 'createUser': {
       //   if (!params?.name || !params?.email) {
       //     return NextResponse.json(

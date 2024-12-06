@@ -9,7 +9,7 @@ const TeacherClassesTable = ({ teacherID, classes }: { teacherID: any, classes: 
         return <Menu shadow="md" width={200}>
             <Menu.Dropdown>
                 <Menu.Label>{name}</Menu.Label>
-                <Menu.Item onClick={() => router.push(`/student/${teacherID}/assignments/${classId}`)} leftSection={<IconFilePencil style={{ width: rem(14), height: rem(14) }} />}>
+                <Menu.Item onClick={() => router.push(`/teacher/${teacherID}/assignments/${classId}`)} leftSection={<IconFilePencil style={{ width: rem(14), height: rem(14) }} />}>
                     View Assignments
                 </Menu.Item>
             </Menu.Dropdown>
