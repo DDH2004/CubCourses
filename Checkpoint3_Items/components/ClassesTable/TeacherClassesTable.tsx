@@ -1,37 +1,9 @@
-import { Button, Card, Menu, rem, Table, TableData, Text } from "@mantine/core"
-import { IconDotsVertical, IconFilePencil, IconPlus, IconTrash } from "@tabler/icons-react";
+import { Card, Menu, rem, Table, Text } from "@mantine/core"
+import { IconDotsVertical, IconFilePencil } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
 
-const TeacherClassesTable = ({ teacherID }: { teacherID: any }) => {
-    const [classes, setClasses] = useState<any[]>([]);
+const TeacherClassesTable = ({ teacherID, classes }: { teacherID: any, classes: any[] }) => {
     const router = useRouter()
-
-    async function fetchAllClasses() {
-        try {
-            const response = await fetch('/api/db', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(
-                    { queryType: 'getClasses', params: {} }
-                )
-            });
-
-            if (!response.ok) {
-                console.error('HTTP error!', response.status, response.statusText);
-                return;
-            }
-
-            const result = await response.json();
-            // console.log('Result received:', result.result);
-
-            setClasses(result.result);
-        } catch (error) {
-            console.error('Failed to fetch data:', error);
-        }
-    }
 
     const RegisteredClassMenu = ({ classId, name }: { classId: string, name: string }) => {
         return <Menu shadow="md" width={200}>
@@ -47,10 +19,6 @@ const TeacherClassesTable = ({ teacherID }: { teacherID: any }) => {
             </Menu.Target>
         </Menu>
     }
-
-    useEffect(() => {
-        fetchAllClasses();
-    }, []);
 
     return <Card radius={10} mah="30rem">
         <Table.ScrollContainer minWidth={500} type="native">
@@ -70,7 +38,7 @@ const TeacherClassesTable = ({ teacherID }: { teacherID: any }) => {
                         item.cs_teacherkey == teacherID ? <Table.Tr key={index}>
                             <Table.Td>{item.cs_classkey}</Table.Td>
                             <Table.Td>{item.cs_name}</Table.Td>
-                            <Table.Td>{item.p_firstname + " " + item.p_lastname}</Table.Td>
+                            <Table.Td>{item.p_firstname} {item.p_lastname}</Table.Td>
                             <Table.Td>{item.cs_subject}</Table.Td>
                             <Table.Td>
                                 <RegisteredClassMenu classId={item.cs_classkey} name={item.cs_name} />

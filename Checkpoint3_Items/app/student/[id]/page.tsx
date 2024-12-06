@@ -18,7 +18,7 @@ export default function StudentView() {
             <Text component="a" href="/" fw="700" c="red">Choose another role?</Text>
         </Group>
 
-        <Group>
+        <Group gap={20}>
             <StudentClassesTable studentID={userId} />
             <StudentClubsTable studentID={userId} />
         </Group>
