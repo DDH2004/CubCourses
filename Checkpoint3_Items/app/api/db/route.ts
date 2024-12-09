@@ -287,6 +287,20 @@ export async function POST(request: Request) {
         break;
       }
 
+      case 'addStudent': {
+        if (!params?.studentId || !params?.classId) {
+          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
+        }
+        result = await new Promise<any>((resolve, reject) => {
+          db.all('insert into students (s_studentkey, s_guardian, s_enrolldate) values (?, ?, ?);', 
+            [params.studentkey, params.guardian, params.enrolldate], (err, row) => {
+            if (err) reject(err);
+            resolve(row);
+          });
+        });
+        break;
+      }
+
       // case 'createUser': {
       //   if (!params?.name || !params?.email) {
       //     return NextResponse.json(
