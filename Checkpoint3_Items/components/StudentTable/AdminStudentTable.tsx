@@ -50,7 +50,7 @@ const AdminStudentTable = () => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(
-                        { queryType: 'expelStudent', params: { studentID: id } }
+                        { queryType: 'expelStudent', params: { studentkey: id } }
                     )
                 });
 
@@ -58,6 +58,7 @@ const AdminStudentTable = () => {
                     console.error('HTTP error!', response.status, response.statusText);
                     return;
                 }
+                fetchAllStudents();
             } catch (error) {
                 console.error('Failed to fetch data:', error);
             }

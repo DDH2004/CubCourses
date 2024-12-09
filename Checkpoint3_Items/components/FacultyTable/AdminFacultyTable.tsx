@@ -42,6 +42,29 @@ const AdminFacultyTable = () => {
     }, [])
 
     const FacultyMenu = ({ id, name }: { id: any, name: string }) => {
+        async function handleFiring() {
+            try {
+                const response = await fetch('/api/db', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(
+                        { queryType: 'fireFaculty', params: { facultykey: id } }
+                    )
+                });
+
+                if (!response.ok) {
+                    console.error('HTTP error!', response.status, response.statusText);
+                    return;
+                }
+                fetchAllFaculty();
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+            }
+
+        }
+        
         async function handleGrantBonus(bonuskey, amount, reason, facultykey) {
             try {
                 const response = await fetch('/api/db', {
@@ -73,7 +96,7 @@ const AdminFacultyTable = () => {
         return <Menu shadow="md" width={200}>
             <Menu.Dropdown>
                 <Menu.Label>{name}</Menu.Label>
-                <Menu.Item leftSection={<IconCancel style={{ width: rem(14), height: rem(14) }} />} color="red">
+                <Menu.Item onClick={handleFiring}leftSection={<IconCancel style={{ width: rem(14), height: rem(14) }} />} color="red">
                     Fire Employee
                 </Menu.Item>
                 <Menu.Item onClick={handleGrantBonus} leftSection={<IconCoin style={{ width: rem(14), height: rem(14) }} />} color="gold">

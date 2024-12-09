@@ -275,9 +275,6 @@ export async function POST(request: Request) {
       }
 
       case 'grantBonus': {
-        if (!params?.studentId || !params?.classId) {
-          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
-        }
         result = await new Promise<any>((resolve, reject) => {
           db.get('insert into bonuses (b_bonuskey, b_date, b_amount, b_reason, b_facultykey) values ?, Date(), ?, ?, ?', [params.bonuskey, params.amount, params.reason, params.facultykey], (err, row) => {
             if (err) reject(err);
@@ -288,9 +285,6 @@ export async function POST(request: Request) {
       }
 
       case 'addStudent': {
-        if (!params?.studentId || !params?.classId) {
-          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
-        }
         result = await new Promise<any>((resolve, reject) => {
           db.all('insert into students (s_studentkey, s_guardian, s_enrolldate) values (?, ?, ?);', 
             [params.studentkey, params.guardian, params.enrolldate], (err, row) => {
@@ -302,18 +296,37 @@ export async function POST(request: Request) {
       }
 
       case 'expelStudent': {
-        if (!params?.studentId || !params?.classId) {
-          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
-        }
         result = await new Promise<any>((resolve, reject) => {
-          db.all('delete from students JOIN persons on s_studentkey = p_personkey join attends on s_studentkey = as_studentkey join doesHomework on s_studentkey = d_studentkey join joins on s_studentkey = j_studentkey where s_studentkey = ?;', 
+          db.all('delete from students where s_studentkey = ?;', 
             [params.studentkey], (err, row) => {
             if (err) reject(err);
             resolve(row);
           });
         });
         break;
-      }      
+      }     
+      
+      case 'getFaculty': {
+        result = await new Promise<any>((resolve, reject) => {
+          db.all('select * from faculty join bonuses on f_facultykey = b_facultykey join persons on p_personkey = f_facultykey;', 
+            [], (err, row) => {
+            if (err) reject(err);
+            resolve(row);
+          });
+        });
+        break;
+      }     
+
+      case 'fireFaculty': {
+        result = await new Promise<any>((resolve, reject) => {
+          db.all('delete from faculty where f_facultykey = ?;', 
+            [params.facultykey], (err, row) => {
+            if (err) reject(err);
+            resolve(row);
+          });
+        });
+        break;
+      }  
 
       // case 'createUser': {
       //   if (!params?.name || !params?.email) {
