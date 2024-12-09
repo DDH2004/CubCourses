@@ -8,6 +8,7 @@ const AdminFacultyModal = () => {
     const [phoneNumber, setPhoneNumber] = useState<string>("");
     const [addressValue, setAddressValue] = useState<string>("")
     const [genderIdentity, setGender] = useState<string>("");
+    const [guardianName, setGuardian] = useState<string>("");
 
 
     return <Stack gap="md">
@@ -47,7 +48,12 @@ const AdminFacultyModal = () => {
             value={genderIdentity}
             onChange={(text) => { setGender(text.target.value) }}
         />
-
+        <TextInput
+            label="Guardian name"
+            placeholder="Enter guardian's name"
+            value={guardianName}
+            onChange={(text) => { setGuardian(text.target.value) }}
+        />
     </Stack>
 }
 
