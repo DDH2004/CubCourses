@@ -1,6 +1,7 @@
 'use client'
 import AdminFacultyTable from "@/components/FacultyTable/AdminFacultyTable";
 import AdminStudentTable from "@/components/StudentTable/AdminStudentTable";
+import AdminClubsTable from "@/components/ClubsTable/AdminClubsTable";
 import { Container, Flex, Group, Paper, Text } from "@mantine/core"
 import { useParams } from 'next/navigation';
 
@@ -19,7 +20,7 @@ export default function AdminView() {
         </Group>
 
         <AdminStudentTable />
-
         <AdminFacultyTable />
+        <AdminClubsTable />
     </>
 }
