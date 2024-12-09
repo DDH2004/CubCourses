@@ -301,6 +301,20 @@ export async function POST(request: Request) {
         break;
       }
 
+      case 'expelStudent': {
+        if (!params?.studentId || !params?.classId) {
+          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
+        }
+        result = await new Promise<any>((resolve, reject) => {
+          db.all('delete from students JOIN persons on s_studentkey = p_personkey join attends on s_studentkey = as_studentkey join doesHomework on s_studentkey = d_studentkey join joins on s_studentkey = j_studentkey where s_studentkey = ?;', 
+            [params.studentkey], (err, row) => {
+            if (err) reject(err);
+            resolve(row);
+          });
+        });
+        break;
+      }      
+
       // case 'createUser': {
       //   if (!params?.name || !params?.email) {
       //     return NextResponse.json(

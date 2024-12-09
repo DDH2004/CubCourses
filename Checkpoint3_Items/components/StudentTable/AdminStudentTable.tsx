@@ -42,11 +42,31 @@ const AdminStudentTable = () => {
     }, [])
 
     const StudentMenu = ({ id, name }: { id: any, name: string }) => {
+        async function handleExpulsion() {
+            try {
+                const response = await fetch('/api/db', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(
+                        { queryType: 'expelStudent', params: { studentID: id } }
+                    )
+                });
+
+                if (!response.ok) {
+                    console.error('HTTP error!', response.status, response.statusText);
+                    return;
+                }
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+            }
+        }
 
         return <Menu shadow="md" width={200}>
             <Menu.Dropdown>
                 <Menu.Label>{name}</Menu.Label>
-                <Menu.Item leftSection={<IconCancel style={{ width: rem(14), height: rem(14) }} />} color="red">
+                <Menu.Item onClick={handleExpulsion} leftSection={<IconCancel style={{ width: rem(14), height: rem(14) }} />} color="red">
                     Expel Student
                 </Menu.Item>
             </Menu.Dropdown>
