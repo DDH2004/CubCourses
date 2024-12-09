@@ -1,4 +1,5 @@
 'use client'
+import AdminFacultyTable from "@/components/FacultyTable/AdminFacultyTable";
 import { Container, Flex, Group, Paper, Text } from "@mantine/core"
 import { useParams } from 'next/navigation';
 
@@ -15,5 +16,7 @@ export default function AdminView() {
         <Group gap={20}>
             <Text>Admin View</Text>
         </Group>
+
+        <AdminFacultyTable />
     </>
 }
