@@ -1,6 +1,6 @@
 import { Button, Card, Group, Menu, Modal, rem, Stack, Table, TableData, Text, TextInput } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks";
-import { IconCancel, IconDotsVertical, IconFileDescription, IconFilePencil, IconFlame, IconMessageCircle, IconPlus, IconTrash } from "@tabler/icons-react";
+import { IconCancel, IconDotsVertical, IconFileDescription, IconFilePencil, IconFlame, IconMessageCircle, IconPlus, IconTrash, IconCoin } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import AdminFacultyModal from "./AdminFacultyModal";
@@ -42,11 +42,42 @@ const AdminFacultyTable = () => {
     }, [])
 
     const FacultyMenu = ({ id, name }: { id: any, name: string }) => {
+        async function handleGrantBonus(bonuskey, amount, reason, facultykey) {
+            try {
+                const response = await fetch('/api/db', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(
+                        { queryType: 'grantBonus', params: {bonuskey: bonuskey, amount: amount, reason: reason, facultykey: facultykey} }
+                    )
+                });
+    
+                if (!response.ok) {
+                    console.error('HTTP error!', response.status, response.statusText);
+                    return;
+                }
+    
+                const result = await response.json();
+                // console.log('Result received:', result.result);
+    
+                setFaculty(result.result);
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+            }
+
+            return <></>
+        }
+
         return <Menu shadow="md" width={200}>
             <Menu.Dropdown>
                 <Menu.Label>{name}</Menu.Label>
                 <Menu.Item leftSection={<IconCancel style={{ width: rem(14), height: rem(14) }} />} color="red">
                     Fire Employee
+                </Menu.Item>
+                <Menu.Item onClick={handleGrantBonus} leftSection={<IconCoin style={{ width: rem(14), height: rem(14) }} />} color="gold">
+                    Grant Bonus
                 </Menu.Item>
             </Menu.Dropdown>
 

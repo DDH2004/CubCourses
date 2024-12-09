@@ -274,6 +274,19 @@ export async function POST(request: Request) {
         break;
       }
 
+      case 'grantBonus': {
+        if (!params?.studentId || !params?.classId) {
+          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
+        }
+        result = await new Promise<any>((resolve, reject) => {
+          db.get('insert into bonuses (b_bonuskey, b_date, b_amount, b_reason, b_facultykey) values ?, Date(), ?, ?, ?', [params.bonuskey, params.amount, params.reason, params.facultykey], (err, row) => {
+            if (err) reject(err);
+            resolve(row);
+          });
+        });
+        break;
+      }
+
       // case 'createUser': {
       //   if (!params?.name || !params?.email) {
       //     return NextResponse.json(
