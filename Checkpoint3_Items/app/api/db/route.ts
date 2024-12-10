@@ -6,6 +6,11 @@ interface QueryRequestBody {
   params?: Record<string, any>;
 }
 
+/**
+ * This is the API endpoint that handles all queries. Basically, every single case here is just another query.
+ * The frontend will post requests to this route and get responses.
+ * The names of the query cases, such as 'getStudents' are mostly self-explanatory in their purpose.
+ */
 export async function POST(request: Request) {
   const db = getDatabaseConnection();
 
@@ -317,7 +322,7 @@ export async function POST(request: Request) {
       
       case 'getFaculty': {
         result = await new Promise<any>((resolve, reject) => {
-          db.all('select * from faculty join bonuses on f_facultykey = b_facultykey join persons on p_personkey = f_facultykey;', 
+          db.all('select * from faculty join persons on p_personkey = f_facultykey;', 
             [], (err, row) => {
             if (err) reject(err);
             resolve(row);
@@ -354,13 +359,64 @@ export async function POST(request: Request) {
         break;
       }
 
+      // Okay, I know this is stupid, but I don't know how to get the ID after I insert a person into the db
       case 'createStudent': {
-        if (!params?.firstName || !params?.lastName || !params?.phoneNum || !params?.email || !params?.address || !params?.gender || !params?.dob) {
+        if (!params?.firstName || !params?.lastName || !params?.phoneNum || !params?.email || !params?.address || !params?.guardian || !params?.enrollDate) {
           return NextResponse.json({ error: 'Missing parameter(s)' }, { status: 400 });
         }
         result = await new Promise<any>((resolve, reject) => {
-          db.all('insert into persons values ((select max(p_personkey) + 1 from persons), ?, ?, ?, ?, ?, ?, ?);', 
-            [params.firstName, params.lastName, params.phoneNum, params.email, params.address, params.gender, params.dob], (err, row) => {
+          db.all('insert into students values ((select p_personkey from persons where p_firstname = ? and p_lastname = ? and p_phoneNum = ? and p_email = ? and p_address = ?), ?, ?);', 
+            [params.firstName, params.lastName, params.phoneNum, params.email, params.address, params.guardian, params.enrollDate], (err, row) => {
+            if (err) reject(err);
+            resolve(row);
+          });
+        });
+        break;
+      }
+
+      case 'createFaculty': {
+        if (!params?.firstName || !params?.lastName || !params?.phoneNum || !params?.email || !params?.address || !params?.hireDate || !params?.salary || !params?.role) {
+          return NextResponse.json({ error: 'Missing parameter(s)' }, { status: 400 });
+        }
+        result = await new Promise<any>((resolve, reject) => {
+          db.all("insert into faculty values ((select p_personkey from persons where p_firstname = ? and p_lastname = ? and p_phoneNum = ? and p_email = ? and p_address = ?), ?, ?, ?);", 
+            [
+              params.firstName, params.lastName, params.phoneNum, params.email, params.address, params.hireDate, params.role, params.salary,
+            ], (err, row) => {
+            if (err) reject(err);
+            resolve(row);
+          });
+        });
+        break;
+      }
+
+      case 'createTeacher': {
+        if (!params?.firstName || !params?.lastName || !params?.phoneNum || !params?.email || !params?.address || !params?.subject || !params?.tenure || !params?.office) {
+          return NextResponse.json({ error: 'Missing parameter(s)' }, { status: 400 });
+        }
+
+        result = await new Promise<any>((resolve, reject) => {
+          db.all("insert into teachers values ((select p_personkey from persons where p_firstname = ? and p_lastname = ? and p_phoneNum = ? and p_email = ? and p_address = ?), ?, ?, ?);", 
+            [
+              params.firstName, params.lastName, params.phoneNum, params.email, params.address, params.subject, params.tenure ? 'Yes' : 'No', params.office
+            ], (err, row) => {
+            if (err) reject(err);
+            resolve(row);
+          });
+        });
+        break;
+      }
+
+      case 'createAdmin': {
+        if (!params?.firstName || !params?.lastName || !params?.phoneNum || !params?.email || !params?.address || !params?.position || !params?.dept) {
+          return NextResponse.json({ error: 'Missing parameter(s)' }, { status: 400 });
+        }
+
+        result = await new Promise<any>((resolve, reject) => {
+          db.all("insert into admin values ((select p_personkey from persons where p_firstname = ? and p_lastname = ? and p_phoneNum = ? and p_email = ? and p_address = ?), ?, ?, 0);", 
+            [
+              params.firstName, params.lastName, params.phoneNum, params.email, params.address, params.position, params.dept
+            ], (err, row) => {
             if (err) reject(err);
             resolve(row);
           });

@@ -1,4 +1,5 @@
 import { Button, Group, Modal, Select, Stack, TextInput } from "@mantine/core"
+import { DatePickerInput, DateTimePicker } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
 import { format } from "date-fns";
 import { useState } from "react";
@@ -8,7 +9,7 @@ import { useState } from "react";
  * The modal that pops up when you click the Accept Student button. It's in its own file to reduce rerendering lag.
  * Allows you to insert a student into the database. 
  */
-const AdminFacultyModal = () => {
+const AdminFacultyModal = ({ refreshData }: { refreshData: () => void }) => {
     const [firstName, setFirstName] = useState<string>("");
     const [lastName, setLastName] = useState<string>("");
     const [emailValue, setEmail] = useState<string>("");
@@ -16,11 +17,14 @@ const AdminFacultyModal = () => {
     const [addressValue, setAddressValue] = useState<string>("")
     const [genderIdentity, setGender] = useState<string>("");
     const [guardianName, setGuardian] = useState<string>("");
+    const [dob, setDob] = useState<Date | null>(null);
+
 
     const [opened, { open, close }] = useDisclosure(false);
 
+    // Ensures all fields are filled out
     const checkCanSend = () => {
-        if (firstName.length == 0 || lastName.length == 0 || emailValue.length == 0 || phoneNumber.length == 0 || addressValue.length == 0 || genderIdentity.length == 0 || guardianName.length == 0) {
+        if (firstName.length == 0 || lastName.length == 0 || emailValue.length == 0 || phoneNumber.length == 0 || addressValue.length == 0 || genderIdentity.length == 0 || guardianName.length == 0 || !dob) {
             return false
         }
         return true
@@ -34,6 +38,7 @@ const AdminFacultyModal = () => {
         setAddressValue("")
         setGender("")
         setGuardian("")
+        setDob(null)
     }
 
 
@@ -43,13 +48,13 @@ const AdminFacultyModal = () => {
                 alert("All fields must be filled in!")
                 return
             }
-            const response = await fetch('/api/db', {
+            let response = await fetch('/api/db', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(
-                    { queryType: 'createPerson', params: { guardian: guardianName, enrolldate: format(new Date(), "yyyy-MM-dd") } }
+                    { queryType: 'createPerson', params: { firstName: firstName, lastName: lastName, phoneNum: phoneNumber, email: emailValue, address: addressValue, gender: genderIdentity, dob: format(dob || new Date(), "yyyy-MM-dd") } }
                 )
             });
 
@@ -57,10 +62,25 @@ const AdminFacultyModal = () => {
                 console.error('HTTP error!', response.status, response.statusText);
                 return;
             }
-            console.log(response)
+
+            response = await fetch('/api/db', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(
+                    { queryType: 'createStudent', params: { firstName: firstName, lastName: lastName, phoneNum: phoneNumber, email: emailValue, address: addressValue, guardian: guardianName, enrollDate: format(new Date(), "yyyy-MM-dd") } }
+                )
+            });
+
+            if (!response.ok) {
+                console.error('HTTP error!', response.status, response.statusText);
+                return;
+            }
 
             close()
             resetValues()
+            refreshData()
         } catch (error) {
             console.error('Failed to fetch data:', error);
         }
@@ -105,6 +125,12 @@ const AdminFacultyModal = () => {
                     placeholder="Enter address"
                     value={addressValue}
                     onChange={(text) => { setAddressValue(text.target.value) }}
+                />
+                <DatePickerInput
+                    label="Date of birth"
+                    placeholder="Pick date"
+                    value={dob}
+                    onChange={setDob}
                 />
 
                 <Select

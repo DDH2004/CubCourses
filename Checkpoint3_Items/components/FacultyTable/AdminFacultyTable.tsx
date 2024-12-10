@@ -7,7 +7,6 @@ import AdminFacultyModal from "./AdminFacultyModal";
 
 const AdminFacultyTable = () => {
     const [faculty, setFaculty] = useState<any[]>([]);
-    const [opened, { open, close }] = useDisclosure(false);
 
 
     async function fetchAllFaculty() {
@@ -112,15 +111,10 @@ const AdminFacultyTable = () => {
 
     return <Card radius={10} mah="30rem" m="1rem 0">
 
-        <Modal opened={opened} onClose={close} withCloseButton={false} title="Hire Employee">
-            <AdminFacultyModal />
-
-        </Modal>
-
         <Table.ScrollContainer minWidth={1000} type="native">
             <Group justify='space-between'>
                 <Text mb="0.5rem" fw="700" c="blue">Faculty</Text>
-                <Button variant="light" m="0.5rem" onClick={open}>Hire Employee</Button>
+                <AdminFacultyModal refreshData={fetchAllFaculty} />
             </Group>
             <Table>
                 <Table.Thead>

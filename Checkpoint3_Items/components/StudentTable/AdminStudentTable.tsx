@@ -7,7 +7,6 @@ import AdminStudentModal from "./AdminStudentModal";
 
 const AdminStudentTable = () => {
     const [student, setStudent] = useState<any[]>([]);
-    const [opened, { open, close }] = useDisclosure(false);
 
 
     async function fetchAllStudents() {
@@ -83,7 +82,7 @@ const AdminStudentTable = () => {
         <Table.ScrollContainer minWidth={1000} type="native">
             <Group justify='space-between'>
                 <Text mb="0.5rem" fw="700" c="blue">Students</Text>
-                <AdminStudentModal />
+                <AdminStudentModal refreshData={fetchAllStudents} />
             </Group>
             <Table>
                 <Table.Thead>
