@@ -319,7 +319,7 @@ export async function POST(request: Request) {
 
       case 'fireFaculty': {
         result = await new Promise<any>((resolve, reject) => {
-          db.all('delete from faculty where f_facultykey = ?;', 
+          db.all('DELETE FROM faculty WHERE f_facultykey IN (SELECT faculty.f_facultykey FROM faculty JOIN teachers ON faculty.f_facultykey = teachers.t_teacherkey JOIN persons ON faculty.f_facultykey = persons.p_personkey WHERE faculty.f_facultykey = ?);', 
             [params.facultykey], (err, row) => {
             if (err) reject(err);
             resolve(row);
