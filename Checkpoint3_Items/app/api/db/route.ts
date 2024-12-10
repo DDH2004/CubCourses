@@ -275,6 +275,9 @@ export async function POST(request: Request) {
       }
 
       case 'grantBonus': {
+        if (!params?.bonuskey || !params?.amount || !params?.reason || !params?.facultykey) {
+          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
+        }
         result = await new Promise<any>((resolve, reject) => {
           db.get('insert into bonuses (b_bonuskey, b_date, b_amount, b_reason, b_facultykey) values ?, Date(), ?, ?, ?', [params.bonuskey, params.amount, params.reason, params.facultykey], (err, row) => {
             if (err) reject(err);
@@ -285,6 +288,9 @@ export async function POST(request: Request) {
       }
 
       case 'addStudent': {
+        if (!params?.studentkey || !params?.guardian || !params?.enrolldate) {
+          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
+        }
         result = await new Promise<any>((resolve, reject) => {
           db.all('insert into students (s_studentkey, s_guardian, s_enrolldate) values (?, ?, ?);', 
             [params.studentkey, params.guardian, params.enrolldate], (err, row) => {
@@ -296,6 +302,9 @@ export async function POST(request: Request) {
       }
 
       case 'expelStudent': {
+        if (!params?.studentkey) {
+          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
+        }
         result = await new Promise<any>((resolve, reject) => {
           db.all('delete from students where s_studentkey = ?;', 
             [params.studentkey], (err, row) => {
@@ -318,6 +327,9 @@ export async function POST(request: Request) {
       }     
 
       case 'fireFaculty': {
+        if (!params?.facultykey) {
+          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
+        }
         result = await new Promise<any>((resolve, reject) => {
           db.all('DELETE FROM faculty WHERE f_facultykey IN (SELECT faculty.f_facultykey FROM faculty JOIN teachers ON faculty.f_facultykey = teachers.t_teacherkey JOIN persons ON faculty.f_facultykey = persons.p_personkey WHERE faculty.f_facultykey = ?);', 
             [params.facultykey], (err, row) => {
@@ -326,27 +338,35 @@ export async function POST(request: Request) {
           });
         });
         break;
-      }  
+      }
 
-      // case 'createUser': {
-      //   if (!params?.name || !params?.email) {
-      //     return NextResponse.json(
-      //       { error: 'Missing name or email parameter' },
-      //       { status: 400 }
-      //     );
-      //   }
-      //   result = await new Promise<any>((resolve, reject) => {
-      //     db.run(
-      //       'INSERT INTO users (name, email) VALUES (?, ?)',
-      //       [params.name, params.email],
-      //       function (err) {
-      //         if (err) reject(err);
-      //         resolve({ id: this.lastID }); // Return the inserted row ID
-      //       }
-      //     );
-      //   });
-      //   break;
-      // }
+      case 'createPerson': {
+        if (!params?.firstName || !params?.lastName || !params?.phoneNum || !params?.email || !params?.address || !params?.gender || !params?.dob) {
+          return NextResponse.json({ error: 'Missing parameter(s)' }, { status: 400 });
+        }
+        result = await new Promise<any>((resolve, reject) => {
+          db.all('insert into persons values ((select max(p_personkey) + 1 from persons), ?, ?, ?, ?, ?, ?, ?);', 
+            [params.firstName, params.lastName, params.phoneNum, params.email, params.address, params.gender, params.dob], (err, row) => {
+            if (err) reject(err);
+            resolve(row);
+          });
+        });
+        break;
+      }
+
+      case 'createStudent': {
+        if (!params?.firstName || !params?.lastName || !params?.phoneNum || !params?.email || !params?.address || !params?.gender || !params?.dob) {
+          return NextResponse.json({ error: 'Missing parameter(s)' }, { status: 400 });
+        }
+        result = await new Promise<any>((resolve, reject) => {
+          db.all('insert into persons values ((select max(p_personkey) + 1 from persons), ?, ?, ?, ?, ?, ?, ?);', 
+            [params.firstName, params.lastName, params.phoneNum, params.email, params.address, params.gender, params.dob], (err, row) => {
+            if (err) reject(err);
+            resolve(row);
+          });
+        });
+        break;
+      }
 
       default: {
         return NextResponse.json(

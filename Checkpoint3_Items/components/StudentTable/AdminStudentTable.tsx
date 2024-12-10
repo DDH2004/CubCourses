@@ -78,42 +78,12 @@ const AdminStudentTable = () => {
         </Menu>
     }
 
-    const handleStudentAddition = async() => {
-        try {
-            const response = await fetch('/api/db', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(
-                    { queryType: 'addStudent', params: { studentID: studentID, guardian: guardian, enrolldate: enrolldate } }
-                )
-            });
-
-            if (!response.ok) {
-                console.error('HTTP error!', response.status, response.statusText);
-                return;
-            }
-        } catch (error) {
-            console.error('Failed to fetch data:', error);
-        }
-    }
-
-    return <Card radius={10} mah="30rem">
-
-        <Modal opened={opened} onClose={close} withCloseButton={false} title="Accept Student">
-            <AdminStudentModal />
-            <Group justify="right">
-                <Button onClick={handleStudentAddition}>
-                    Confirm
-                </Button>
-            </Group>
-        </Modal>
+    return <Card radius={10} mah="30rem" m="1rem 0">
 
         <Table.ScrollContainer minWidth={1000} type="native">
             <Group justify='space-between'>
                 <Text mb="0.5rem" fw="700" c="blue">Students</Text>
-                <Button variant="light" m="0.5rem" onClick={open}>Accept Student</Button>
+                <AdminStudentModal />
             </Group>
             <Table>
                 <Table.Thead>

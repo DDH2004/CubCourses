@@ -64,7 +64,7 @@ const AdminFacultyTable = () => {
             }
 
         }
-        
+
         async function handleGrantBonus(bonuskey, amount, reason, facultykey) {
             try {
                 const response = await fetch('/api/db', {
@@ -73,18 +73,18 @@ const AdminFacultyTable = () => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(
-                        { queryType: 'grantBonus', params: {bonuskey: bonuskey, amount: amount, reason: reason, facultykey: facultykey} }
+                        { queryType: 'grantBonus', params: { bonuskey: bonuskey, amount: amount, reason: reason, facultykey: facultykey } }
                     )
                 });
-    
+
                 if (!response.ok) {
                     console.error('HTTP error!', response.status, response.statusText);
                     return;
                 }
-    
+
                 const result = await response.json();
                 // console.log('Result received:', result.result);
-    
+
                 setFaculty(result.result);
             } catch (error) {
                 console.error('Failed to fetch data:', error);
@@ -96,7 +96,7 @@ const AdminFacultyTable = () => {
         return <Menu shadow="md" width={200}>
             <Menu.Dropdown>
                 <Menu.Label>{name}</Menu.Label>
-                <Menu.Item onClick={handleFiring}leftSection={<IconCancel style={{ width: rem(14), height: rem(14) }} />} color="red">
+                <Menu.Item onClick={handleFiring} leftSection={<IconCancel style={{ width: rem(14), height: rem(14) }} />} color="red">
                     Fire Employee
                 </Menu.Item>
                 <Menu.Item onClick={handleGrantBonus} leftSection={<IconCoin style={{ width: rem(14), height: rem(14) }} />} color="gold">
@@ -110,7 +110,7 @@ const AdminFacultyTable = () => {
         </Menu>
     }
 
-    return <Card radius={10} mah="30rem">
+    return <Card radius={10} mah="30rem" m="1rem 0">
 
         <Modal opened={opened} onClose={close} withCloseButton={false} title="Hire Employee">
             <AdminFacultyModal />

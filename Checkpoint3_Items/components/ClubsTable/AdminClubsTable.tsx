@@ -1,5 +1,4 @@
 import { Card, Menu, rem, Table, Text } from "@mantine/core";
-import { IconFilePencil, IconFileDescription, IconTrash, IconDotsVertical, IconPlus } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 
 const AdminClubsTable = () => {
@@ -36,7 +35,7 @@ const AdminClubsTable = () => {
     }, []);
 
 
-    return <Card radius={10} mah="30rem">
+    return <Card radius={10} mah="30rem" m="1rem 0">
         <Table.ScrollContainer minWidth={1000} type="native">
             <Text mb="0.5rem" mt="1rem" fw="700" c="blue">Clubs</Text>
             <Table>
