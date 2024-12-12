@@ -36,7 +36,7 @@ const AdminClubsTable = () => {
 
 
     return <Card radius={10} mah="30rem" m="1rem 0">
-        <Table.ScrollContainer minWidth={1000} type="native">
+        <Table.ScrollContainer minWidth={300} type="native">
             <Text mb="0.5rem" mt="1rem" fw="700" c="blue">Clubs</Text>
             <Table>
                 <Table.Thead>

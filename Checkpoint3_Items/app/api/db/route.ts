@@ -279,19 +279,6 @@ export async function POST(request: Request) {
         break;
       }
 
-      case 'grantBonus': {
-        if (!params?.bonuskey || !params?.amount || !params?.reason || !params?.facultykey) {
-          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
-        }
-        result = await new Promise<any>((resolve, reject) => {
-          db.get('insert into bonuses (b_bonuskey, b_date, b_amount, b_reason, b_facultykey) values ?, Date(), ?, ?, ?', [params.bonuskey, params.amount, params.reason, params.facultykey], (err, row) => {
-            if (err) reject(err);
-            resolve(row);
-          });
-        });
-        break;
-      }
-
       case 'addStudent': {
         if (!params?.studentkey || !params?.guardian || !params?.enrolldate) {
           return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
@@ -336,7 +323,7 @@ export async function POST(request: Request) {
           return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
         }
         result = await new Promise<any>((resolve, reject) => {
-          db.all('DELETE FROM faculty WHERE f_facultykey IN (SELECT faculty.f_facultykey FROM faculty JOIN teachers ON faculty.f_facultykey = teachers.t_teacherkey JOIN persons ON faculty.f_facultykey = persons.p_personkey WHERE faculty.f_facultykey = ?);', 
+          db.all('DELETE FROM faculty WHERE f_facultykey = ?;', 
             [params.facultykey], (err, row) => {
             if (err) reject(err);
             resolve(row);
@@ -417,6 +404,63 @@ export async function POST(request: Request) {
             [
               params.firstName, params.lastName, params.phoneNum, params.email, params.address, params.position, params.dept
             ], (err, row) => {
+            if (err) reject(err);
+            resolve(row);
+          });
+        });
+        break;
+      }
+
+      case 'createAssignment': {
+        if (!params?.dueDate || !params?.assignDate || !params?.description || !params?.classId) {
+          return NextResponse.json({ error: 'Missing parameter(s)' }, { status: 400 });
+        }
+
+        result = await new Promise<any>((resolve, reject) => {
+          db.all("insert into homework values ((select max(h_homeworkkey) + 1 from homework), ?, ?, ?, ?);", 
+            [
+              params.assignDate, params.dueDate, params.description, params.classId
+            ], (err, row) => {
+            if (err) reject(err);
+            resolve(row);
+          });
+        });
+        break;
+      }
+
+      case 'removeAssignment': {
+        if (!params?.assignId) {
+          return NextResponse.json({ error: 'Missing parameter(s)' }, { status: 400 });
+        }
+
+        result = await new Promise<any>((resolve, reject) => {
+          db.all("delete from homework where h_homeworkkey = ?;", 
+            [
+              params.assignId
+            ], (err, row) => {
+            if (err) reject(err);
+            resolve(row);
+          });
+        });
+        break;
+      }
+      
+      case 'getBonuses': {
+        result = await new Promise<any[]>((resolve, reject) => {
+          db.all('select * from bonuses join faculty on f_facultykey = b_facultykey join persons on f_facultykey = p_personkey;', [], (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+          });
+        });
+        break;
+      }
+
+      case 'grantBonus': {
+        if (!params?.amount || !params?.reason || !params?.facultyId || !params?.grantDate) {
+          return NextResponse.json({ error: 'Missing id parameter(s)' }, { status: 400 });
+        }
+        result = await new Promise<any>((resolve, reject) => {
+          db.get('insert into bonuses values ((select max(b_bonuskey) + 1 from bonuses), ?, ?, ?, ?);', [params.grantDate, params.amount, params.reason, params.facultyId], (err, row) => {
             if (err) reject(err);
             resolve(row);
           });
