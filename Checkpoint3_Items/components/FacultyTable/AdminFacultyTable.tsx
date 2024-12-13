@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import AdminFacultyModal from "./AdminFacultyModal";
 
+// Renders the table of all faculty members that an admin sees
 const AdminFacultyTable = () => {
     const [faculty, setFaculty] = useState<any[]>([]);
 
+    // Gets all faculty data from the db
     async function fetchAllFaculty() {
         try {
             const response = await fetch('/api/db', {
@@ -38,6 +40,7 @@ const AdminFacultyTable = () => {
         fetchAllFaculty()
     }, [])
 
+    // Renders a menu that allows an admin to fire people
     const FacultyMenu = ({ id, name }: { id: any, name: string }) => {
         async function handleFiring() {
             try {

@@ -10,6 +10,7 @@ interface QueryRequestBody {
  * This is the API endpoint that handles all queries. Basically, every single case here is just another query.
  * The frontend will post requests to this route and get responses.
  * The names of the query cases, such as 'getStudents' are mostly self-explanatory in their purpose.
+ * And also you can simply read the SQL statements in quotes to see what they do. It's very straightforward.
  */
 export async function POST(request: Request) {
   const db = getDatabaseConnection();

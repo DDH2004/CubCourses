@@ -9,68 +9,10 @@ import EnterStudentCard from '@/components/EnterStudentCard';
 import EnterTeacherCard from '@/components/EnterTeacherCard';
 import EnterAdminCard from '@/components/EnterAdminCard';
 
-
+// The homepage, not much else to say here
+// Imports the cards required to see the student, teacher, and admin views
+// Whenever you see a function that starts with the word 'fetch', then that function makes a request to the database
 export default function HomePage() {
-  const [teachers, setTeachers] = useState<any[]>([])
-  const [admin, setAdmin] = useState<any[]>([])
-
-  async function fetchTeachers() {
-    try {
-      const response = await fetch('/api/db', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(
-          { queryType: 'getTeachers', params: {} }
-        )
-      });
-
-      if (!response.ok) {
-        console.error('HTTP error!', response.status, response.statusText);
-        return;
-      }
-
-      const result = await response.json();
-      console.log('Result received:', result.result);
-
-      setTeachers(result.result);
-    } catch (error) {
-      console.error('Failed to fetch data:', error);
-    }
-  }
-
-  async function fetchAdmin() {
-    try {
-      const response = await fetch('/api/db', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(
-          { queryType: 'getAdmin', params: {} }
-        )
-      });
-
-      if (!response.ok) {
-        console.error('HTTP error!', response.status, response.statusText);
-        return;
-      }
-
-      const result = await response.json();
-      console.log('Result received:', result.result);
-
-      setAdmin(result.result);
-    } catch (error) {
-      console.error('Failed to fetch data:', error);
-    }
-  }
-
-  useEffect(() => {
-    // fetchTeachers();
-    // fetchAdmin();
-  }, []);
-
   return (
     <>
       <ColorSchemeToggle />

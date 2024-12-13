@@ -3,6 +3,7 @@ import { IconClipboard } from "@tabler/icons-react";
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react"
 
+// This card renders a list of teachers from the db and lets you pick one of them and see their view
 const EnterTeacherCard = () => {
     const [teachers, setTeachers] = useState<any[]>([])
     const [teacherKey, setTeacherKey] = useState<string>('851')

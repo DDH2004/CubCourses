@@ -2,6 +2,7 @@ import { Card, Menu, rem, Table, Text } from "@mantine/core"
 import { IconDotsVertical, IconFilePencil } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 
+// This component simply renders classes in a table for the teacher to see
 const TeacherClassesTable = ({ teacherID, classes }: { teacherID: any, classes: any[] }) => {
     const router = useRouter()
 
@@ -9,6 +10,7 @@ const TeacherClassesTable = ({ teacherID, classes }: { teacherID: any, classes: 
         return <Menu shadow="md" width={200}>
             <Menu.Dropdown>
                 <Menu.Label>{name}</Menu.Label>
+                {/* router.push() navigates you to another url */}
                 <Menu.Item onClick={() => router.push(`/teacher/${teacherID}/assignments/${classId}`)} leftSection={<IconFilePencil style={{ width: rem(14), height: rem(14) }} />}>
                     View Assignments
                 </Menu.Item>

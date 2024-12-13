@@ -1,6 +1,7 @@
 import { Card, Menu, rem, Table, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 
+// Renders all the clubs in a table
 const AdminClubsTable = () => {
     const [clubs, setClubs] = useState<any[]>([]);
 

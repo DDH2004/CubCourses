@@ -5,6 +5,8 @@ import { IconArrowLeft } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useState } from "react";
 
+// The general form consists of text inputs and stuff for the data that is common
+// between both teachers and administrators.
 const GeneralForm = ({ generalData, setGeneralData, checkCanSend, setFormStep }) => <>
     <Group w="100%" justify='space-between'>
         <TextInput
@@ -116,6 +118,7 @@ const GeneralForm = ({ generalData, setGeneralData, checkCanSend, setFormStep })
     }} m="1rem 0">Next Step</Button>
 </>
 
+// This is now data exclusive to teachers
 const TeacherForm = ({ setFormStep, generalData, setGeneralData, teacherInfo, setTeacherInfo, handleTeacherAddition }) => {
     return <>
         <Group onClick={() => setFormStep(0)} style={{ cursor: 'pointer' }} gap='sm'>
@@ -170,6 +173,7 @@ const TeacherForm = ({ setFormStep, generalData, setGeneralData, teacherInfo, se
     </>
 }
 
+// Data exclusive to admin
 const AdminForm = ({ setFormStep, generalData, setGeneralData, adminInfo, setAdminInfo, handleAdminAddition }) => {
     return <>
         <Group onClick={() => setFormStep(0)} style={{ cursor: 'pointer' }} gap='sm'>
@@ -211,6 +215,8 @@ const AdminForm = ({ setFormStep, generalData, setGeneralData, adminInfo, setAdm
     </>
 }
 
+// This is the code that defines the pop up that shows up when you click on the Hire Employee button
+// It needs the three forms above to collect the required data to insert tuples into the database
 const AdminFacultyModal = ({ refreshData }: { refreshData: () => void }) => {
     const [generalData, setGeneralData] = useState({
         firstName: "",
@@ -251,6 +257,7 @@ const AdminFacultyModal = ({ refreshData }: { refreshData: () => void }) => {
         return true
     }
 
+    // Resets the data in the form you entered to wipe the slate clean
     const resetValues = () => {
         setGeneralData({
             firstName: "",
@@ -278,7 +285,7 @@ const AdminFacultyModal = ({ refreshData }: { refreshData: () => void }) => {
         setFormStep(0)
     }
 
-
+    // Adds a teacher to the database
     const handleTeacherAddition = async () => {
         try {
             if (teacherInfo.subject.length == 0 || teacherInfo.office.length == 0) {
@@ -346,6 +353,7 @@ const AdminFacultyModal = ({ refreshData }: { refreshData: () => void }) => {
         }
     }
 
+    // Adds an admin to the database
     const handleAdminAddition = async () => {
         try {
             if (adminInfo.dept.length == 0 || adminInfo.position.length == 0) {
@@ -418,6 +426,7 @@ const AdminFacultyModal = ({ refreshData }: { refreshData: () => void }) => {
         <Button variant="light" m="0.5rem" onClick={open}>Hire Employee</Button>
         <Modal opened={opened} onClose={close} withCloseButton={false} title="Hire Employee">
             <Stack gap="md">
+                {/* This code renders either the admin form or the teacher form depending on the role selected in the general form */}
                 {formStep === 0 ? <GeneralForm generalData={generalData} setGeneralData={setGeneralData} setFormStep={setFormStep} checkCanSend={checkCanSend} /> :
                     (generalData.role === "Admin" ? <AdminForm generalData={generalData} setGeneralData={setGeneralData} setFormStep={setFormStep} adminInfo={adminInfo} setAdminInfo={setAdminInfo} handleAdminAddition={handleAdminAddition} /> : <TeacherForm generalData={generalData} setGeneralData={setGeneralData} setFormStep={setFormStep} teacherInfo={teacherInfo} setTeacherInfo={setTeacherInfo} handleTeacherAddition={handleTeacherAddition} />)
                 }

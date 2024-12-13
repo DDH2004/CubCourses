@@ -1,10 +1,10 @@
-import { Button, Card, Group, Menu, Modal, NumberInput, rem, Select, Stack, Table, TableData, Text, Textarea, TextInput } from "@mantine/core"
+import { Button, Card, Group, Modal, NumberInput, Select, Stack, Table, Text, Textarea } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks";
-import { IconCancel, IconDotsVertical, IconFileDescription, IconFilePencil, IconFlame, IconMessageCircle, IconPlus, IconTrash } from "@tabler/icons-react";
 import { format } from "date-fns";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
+// The popup that shows up when you click the Grant Bonus button
+// Allows admins to give bonuses to other faculty members
 const AdminBonusesModal = ({ refreshData, faculty }: { refreshData: () => void, faculty: any[] }) => {
     const [amount, setAmount] = useState(0);
     const [reason, setReason] = useState("");
@@ -19,7 +19,7 @@ const AdminBonusesModal = ({ refreshData, faculty }: { refreshData: () => void, 
         setFacultyId("")
     }
 
-
+    // Inserts a tuple into the bonuses table
     const handleGrantBonus = async () => {
         try {
             const response = await fetch('/api/db', {
@@ -71,10 +71,13 @@ const AdminBonusesModal = ({ refreshData, faculty }: { refreshData: () => void, 
     </>
 }
 
+// Renders the table of bonuses the admin sees
 const AdminBonusesTable = () => {
     const [bonuses, setBonuses] = useState<any[]>([]);
     const [faculty, setFaculty] = useState<any[]>([]);
 
+    // Fetches all faculty
+    // This is to be passed in to the AdminBonusesModal as props
     async function fetchAllFaculty() {
         try {
             const response = await fetch('/api/db', {
@@ -101,6 +104,7 @@ const AdminBonusesTable = () => {
         }
     }
 
+    // Fetches all bonuses
     async function fetchBonuses() {
         try {
             const response = await fetch('/api/db', {
@@ -126,7 +130,6 @@ const AdminBonusesTable = () => {
             console.error('Failed to fetch data:', error);
         }
     }
-
 
     useEffect(() => {
         fetchBonuses()

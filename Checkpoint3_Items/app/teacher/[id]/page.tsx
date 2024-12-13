@@ -6,13 +6,14 @@ import TeacherClubsTable from "@/components/ClubsTable/TeacherClubsTable";
 import TeacherViewStudents from "@/components/TeacherViewStudents";
 import { useEffect, useState } from "react";
 
+// The teacher page
 export default function TeacherView() {
     const params = useParams(); // Access dynamic route parameters
     const userId = params?.id || "1"; // Retrieve the "id" parameter from the URL
     const [classes, setClasses] = useState<any[]>([]);
     const [taughtStudents, setTaughtStudents] = useState<any[]>([]);
 
-
+    // Fetch functions to get all classes and all students being taught by the current teacher
     async function fetchAllClasses() {
         try {
             const response = await fetch('/api/db', {

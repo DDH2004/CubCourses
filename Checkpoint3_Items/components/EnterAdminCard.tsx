@@ -3,6 +3,7 @@ import { IconCrown } from "@tabler/icons-react";
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react"
 
+// This card renders a list of admins from the db and lets you pick one of them and see their view
 const EnterAdminCard = () => {
     const [admin, setAdmin] = useState<any[]>([])
     const [adminKey, setAdminKey] = useState<string>('991')

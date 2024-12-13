@@ -3,6 +3,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconDotsVertical, IconFilePencil } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 
+// This renders the table that allows teachers to view all the students enrolled in each of their classes
 export default function TeacherViewStudents({ teacherID, classes, students, refreshData }: { teacherID: any, classes: any[], students: any[], refreshData: () => void }) {
     const [activeTab, setActiveTab] = useState<string | null>('');
     const currentStudent = useRef("")
@@ -13,15 +14,16 @@ export default function TeacherViewStudents({ teacherID, classes, students, refr
 
     useEffect(() => {
         let found = false
+        // Sets the default tab so it automatically displays something
         classes.forEach((cls) => {
             if (cls.cs_teacherkey == teacherID && !found) {
                 found = true
                 setActiveTab(cls.cs_classkey.toString())
             }
         })
-        // setActiveTab(classes[0]?.cs_name)
     }, [classes])
 
+    // Alters the student's grade in a class in the db
     const changeStudentGrade = async (studId: string, classId: string, grade: number) => {
         try {
             const response = await fetch('/api/db', {

@@ -3,6 +3,7 @@ import { IconUser } from "@tabler/icons-react";
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react"
 
+// This card renders a list of students from the db and lets you pick one of them and see their view
 const EnterStudentCard = () => {
   const [students, setStudents] = useState<any[]>([])
   const [studentKey, setStudentKey] = useState<string>('1')

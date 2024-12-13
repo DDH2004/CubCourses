@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { useDisclosure } from "@mantine/hooks";
 import { DatePickerInput } from "@mantine/dates";
 
+// The popup that allows a teacher to add an assignment
 const AddAssignmentModal = ({ refreshData, classId }) => {
     const [opened, { open, close }] = useDisclosure(false);
     const [description, setDescription] = useState("")
@@ -57,7 +58,7 @@ const AddAssignmentModal = ({ refreshData, classId }) => {
 }
 
 /**
- * This is the view the student sees when they look at their assignments.
+ * This is the view the teacher sees when they look at their class's assignments.
  */
 export default function StudentAssignmentView() {
     const params = useParams(); // Access dynamic route parameters

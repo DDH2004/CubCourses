@@ -3,11 +3,14 @@ import { IconDotsVertical, IconFileDescription, IconFilePencil, IconMessageCircl
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+// Component that renders all the classes into a table for the student to see
+// It separates classes the student is registered in and classes the student isn't registered in
 const StudentClassesTable = ({ studentID }: { studentID: any }) => {
     const [classes, setClasses] = useState<any[]>([]);
     const [registeredClasses, setRegisteredClasses] = useState<any[]>([]);
     const router = useRouter()
 
+    // Fetches all classes in the db
     async function fetchAllClasses() {
         try {
             const response = await fetch('/api/db', {
@@ -34,6 +37,7 @@ const StudentClassesTable = ({ studentID }: { studentID: any }) => {
         }
     }
 
+    // Fetches the classes that the current student is enrolled in
     async function fetchMyClasses() {
         try {
             const response = await fetch('/api/db', {
@@ -60,6 +64,8 @@ const StudentClassesTable = ({ studentID }: { studentID: any }) => {
         }
     }
 
+    // The three dots menu you see on the right side of the table
+    // Allows a student to register for a class
     const ClassMenu = ({ classId, name }: { classId: string, name: string }) => {
         const handleRegister = async () => {
             if (registeredClasses.length >= 6) {
@@ -110,6 +116,7 @@ const StudentClassesTable = ({ studentID }: { studentID: any }) => {
         </Menu>
     }
 
+    // Allows the student to unenroll and also view assignments
     const RegisteredClassMenu = ({ classId, name }: { classId: string, name: string }) => {
         const handleRemoveClass = async () => {
             try {

@@ -41,7 +41,7 @@ const AdminFacultyModal = ({ refreshData }: { refreshData: () => void }) => {
         setDob(null)
     }
 
-
+    // Adds a student to the db
     const handleStudentAddition = async () => {
         try {
             if (!checkCanSend()) {

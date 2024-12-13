@@ -1,10 +1,12 @@
-import { Card, Menu, rem, Table, Text } from "@mantine/core";
-import { IconFilePencil, IconFileDescription, IconTrash, IconDotsVertical, IconPlus } from "@tabler/icons-react";
+import { Card, Table, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 
+// Renders the table of clubs that the teacher sees
+// Includes whether or not they advise that club
 const TeacherClubsTable = ({ teacherID }: { teacherID: any }) => {
     const [clubs, setClubs] = useState<any[]>([]);
 
+    // Fetches club data
     async function fetchAllClubs() {
         try {
             const response = await fetch('/api/db', {

@@ -1,14 +1,13 @@
-import { Button, Card, Group, Menu, Modal, rem, Stack, Table, TableData, Text, TextInput } from "@mantine/core"
-import { useDisclosure } from "@mantine/hooks";
-import { IconCancel, IconDotsVertical, IconFileDescription, IconFilePencil, IconFlame, IconMessageCircle, IconPlus, IconTrash } from "@tabler/icons-react";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { Card, Group, Menu, rem, Table, Text } from "@mantine/core"
+import { IconCancel, IconDotsVertical } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
 import AdminStudentModal from "./AdminStudentModal";
 
+// Renders the table of students that the admin sees
 const AdminStudentTable = () => {
     const [student, setStudent] = useState<any[]>([]);
 
-
+    // Fetches all the student data from the db
     async function fetchAllStudents() {
         try {
             const response = await fetch('/api/db', {
@@ -35,11 +34,11 @@ const AdminStudentTable = () => {
         }
     }
 
-
     useEffect(() => {
         fetchAllStudents()
     }, [])
 
+    // Allows an admin to expel students
     const StudentMenu = ({ id, name }: { id: any, name: string }) => {
         async function handleExpulsion() {
             try {

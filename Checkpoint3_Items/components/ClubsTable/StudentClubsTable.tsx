@@ -2,6 +2,8 @@ import { Card, Menu, rem, Table, Text } from "@mantine/core";
 import { IconFilePencil, IconFileDescription, IconTrash, IconDotsVertical, IconPlus } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 
+// Renders all the clubs in a table
+// Allows students to join and leave clubs using the club menu (the three dots)
 const StudentClubsTable = ({ studentID }: { studentID: any }) => {
     const [clubs, setClubs] = useState<any[]>([]);
     const [myClubs, setMyClubs] = useState<any[]>([]);

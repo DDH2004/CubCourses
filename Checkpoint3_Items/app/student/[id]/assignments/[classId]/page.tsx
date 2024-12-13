@@ -22,6 +22,7 @@ export default function StudentAssignmentView() {
     const classId = params?.classId || "1"
     const router = useRouter()
 
+    // These fetch functions get assignments 
     async function fetchAllAssignments() {
         try {
             const response = await fetch('/api/db', {
@@ -48,6 +49,7 @@ export default function StudentAssignmentView() {
         }
     }
 
+    // Gets assignments submitted by the current student
     async function fetchMyAssignments() {
         try {
             const response = await fetch('/api/db', {
@@ -73,6 +75,7 @@ export default function StudentAssignmentView() {
         }
     }
 
+    // Gets the student's grade in the class
     async function fetchMyGrade() {
         try {
             const response = await fetch('/api/db', {
@@ -149,6 +152,7 @@ export default function StudentAssignmentView() {
         </Card>
     }
 
+    // Submits an assignment
     const onSubmitConfirm = async () => {
         try {
             const response = await fetch('/api/db', {
