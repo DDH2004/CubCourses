@@ -8,7 +8,6 @@ import AdminFacultyModal from "./AdminFacultyModal";
 const AdminFacultyTable = () => {
     const [faculty, setFaculty] = useState<any[]>([]);
 
-
     async function fetchAllFaculty() {
         try {
             const response = await fetch('/api/db', {
@@ -34,7 +33,6 @@ const AdminFacultyTable = () => {
             console.error('Failed to fetch data:', error);
         }
     }
-
 
     useEffect(() => {
         fetchAllFaculty()
@@ -64,42 +62,11 @@ const AdminFacultyTable = () => {
 
         }
 
-        async function handleGrantBonus(bonuskey, amount, reason, facultykey) {
-            try {
-                const response = await fetch('/api/db', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(
-                        { queryType: 'grantBonus', params: { bonuskey: bonuskey, amount: amount, reason: reason, facultykey: facultykey } }
-                    )
-                });
-
-                if (!response.ok) {
-                    console.error('HTTP error!', response.status, response.statusText);
-                    return;
-                }
-
-                const result = await response.json();
-                // console.log('Result received:', result.result);
-
-                setFaculty(result.result);
-            } catch (error) {
-                console.error('Failed to fetch data:', error);
-            }
-
-            return <></>
-        }
-
         return <Menu shadow="md" width={200}>
             <Menu.Dropdown>
                 <Menu.Label>{name}</Menu.Label>
                 <Menu.Item onClick={handleFiring} leftSection={<IconCancel style={{ width: rem(14), height: rem(14) }} />} color="red">
                     Fire Employee
-                </Menu.Item>
-                <Menu.Item onClick={handleGrantBonus} leftSection={<IconCoin style={{ width: rem(14), height: rem(14) }} />} color="gold">
-                    Grant Bonus
                 </Menu.Item>
             </Menu.Dropdown>
 
@@ -139,7 +106,7 @@ const AdminFacultyTable = () => {
                                     <Table.Td>{item.p_email}</Table.Td>
                                     <Table.Td>{item.p_phonenum}</Table.Td>
                                     <Table.Td>{item.f_role}</Table.Td>
-                                    <Table.Td>{item.f_salary}</Table.Td>
+                                    <Table.Td>${item.f_salary}</Table.Td>
                                     <Table.Td>{item.f_hiredate}</Table.Td>
                                     <Table.Td>
                                         <FacultyMenu id={item.f_facultykey} name={`${item.p_firstname} ${item.p_lastname}`} />

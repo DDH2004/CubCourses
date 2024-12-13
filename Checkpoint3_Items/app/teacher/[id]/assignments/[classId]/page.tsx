@@ -1,10 +1,60 @@
 'use client'
-import { Button, Card, Collapse, Flex, Group, Menu, Modal, NumberInput, rem, Table, Text } from "@mantine/core"
+import { Button, Card, Collapse, Flex, Group, Menu, Modal, NumberInput, rem, Select, Stack, Table, Text, Textarea, TextInput } from "@mantine/core"
 import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { IconArrowLeft, IconBook, IconDotsVertical, IconFilePencil } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useDisclosure } from "@mantine/hooks";
+import { DatePickerInput } from "@mantine/dates";
+
+const AddAssignmentModal = ({ refreshData, classId }) => {
+    const [opened, { open, close }] = useDisclosure(false);
+    const [description, setDescription] = useState("")
+    const [dueDate, setDueDate] = useState(new Date())
+
+
+    // Pings the API route to add an assignment to the db
+    const handleAddAssignment = async () => {
+        try {
+            const response = await fetch('/api/db', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(
+                    { queryType: 'createAssignment', params: { dueDate: format(dueDate, "yyyy-MM-dd"), assignDate: format(new Date(), "yyyy-MM-dd"), description: description, classId } }
+                )
+            });
+
+            if (!response.ok) {
+                console.error('HTTP error!', response.status, response.statusText);
+                return;
+            }
+
+            refreshData();
+            setDueDate(new Date())
+            setDescription("")
+            close();
+        } catch (error) {
+            console.error('Failed to fetch data:', error);
+        }
+    }
+
+    return <>
+        <Modal opened={opened} onClose={close} title="Add Assignment" centered>
+            <Stack gap="md">
+                <DatePickerInput label="Due" placeholder="Select date" value={dueDate} onChange={(date) => setDueDate(date || new Date())} />
+                <Textarea label="Description" value={description} onChange={(text) => setDescription(text.target.value)} />
+
+                <Button onClick={handleAddAssignment} m="1rem 0">
+                    Confirm
+                </Button>
+            </Stack>
+        </Modal>
+
+        <Button onClick={open}>Add Assignment</Button>
+    </>
+}
 
 /**
  * This is the view the student sees when they look at their assignments.
@@ -132,6 +182,31 @@ export default function StudentAssignmentView() {
     const AssignmentCard = ({ id, dueDate, assignDate, desc }: { id: string, dueDate: string, assignDate: string, desc: string }) => {
         const [collapsableOpened, { toggle }] = useDisclosure(false);
 
+        // pings API to remove an assignment
+        const deleteAssignment = async () => {
+            try {
+                const response = await fetch('/api/db', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(
+                        { queryType: 'removeAssignment', params: { assignId: id } }
+                    )
+                });
+
+                if (!response.ok) {
+                    console.error('HTTP error!', response.status, response.statusText);
+                    return;
+                }
+
+                fetchAllAssignments()
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+            }
+
+        }
+
 
         return <Card w="100%" m="0.5rem 0">
             <Modal opened={modalOpened} onClose={close} title={`Change ${studentNameRef.current}'s grade for assignment ${assignmentRef.current}?`} withCloseButton>
@@ -161,6 +236,8 @@ export default function StudentAssignmentView() {
                         <Text fz="14">Assigned {format(assignDate, 'MMM d, yyyy')}</Text>
                         <Text fz="14"> | </Text>
                         <Text fw="700" fz="14" c="blue" onClick={toggle} style={{ cursor: 'pointer' }}>{collapsableOpened ? "Hide Submissions" : "View Submissions"}</Text>
+                        <Text fz="14"> | </Text>
+                        <Text fw="700" fz="14" c="red" onClick={deleteAssignment} style={{ cursor: 'pointer' }}>Delete</Text>
                     </Group>
                 </Flex>
             </Group>
@@ -197,7 +274,10 @@ export default function StudentAssignmentView() {
             <IconArrowLeft />
             <Text fw="700">Back</Text>
         </Group>
-        <Text fw="500" fz="24" mb="1rem">Assignments</Text>
+        <Group align="start">
+            <Text fw="500" fz="24" mb="1rem">Assignments</Text>
+            <AddAssignmentModal refreshData={fetchAllAssignments} classId={classId} />
+        </Group>
         {assignments.map((item, index) => <AssignmentCard key={index} id={item.h_homeworkkey} dueDate={item.h_duedate} assignDate={item.h_assigndate} desc={item.h_description} />)}
     </>
 }

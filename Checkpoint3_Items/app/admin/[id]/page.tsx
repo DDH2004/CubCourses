@@ -4,6 +4,7 @@ import AdminStudentTable from "@/components/StudentTable/AdminStudentTable";
 import AdminClubsTable from "@/components/ClubsTable/AdminClubsTable";
 import { Container, Flex, Group, Paper, Text } from "@mantine/core"
 import { useParams } from 'next/navigation';
+import AdminBonusesTable from "@/components/AdminBonusesTable";
 
 export default function AdminView() {
     const params = useParams(); // Access dynamic route parameters
@@ -21,6 +22,9 @@ export default function AdminView() {
 
         <AdminStudentTable />
         <AdminFacultyTable />
-        <AdminClubsTable />
+        <Group gap="lg">
+            <AdminClubsTable />
+            <AdminBonusesTable />
+        </Group>
     </>
 }
